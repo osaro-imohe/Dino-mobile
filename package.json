@@ -6,11 +6,12 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "format": "prettier --write './**/*.{js,jsx,css,scss}'"
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,scss}'"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn run format"
+      "pre-commit": "yarn run lint-staged"
     }
   },
   "dependencies": {

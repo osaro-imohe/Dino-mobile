@@ -40,7 +40,7 @@ const Groups = () => {
       </View>
       <ScrollView style={styles.groupScrollView}>
         <Group groupName="Physics" logoUrl={url2} numberOfParticipants={69} />
-        <Group groupName="Math" logoUrl={url3} numberOfParticipants={53} /> 
+        <Group groupName="Math" logoUrl={url3} numberOfParticipants={53} />
       </ScrollView>
     </View>
   );

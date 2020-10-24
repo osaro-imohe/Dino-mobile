@@ -1,9 +1,9 @@
 import {
   ApolloClient,
-  InMemoryCache,
   ApolloLink,
   createHttpLink,
 } from "@apollo/client";
+import { cache } from './cache';
 import { onError } from "apollo-link-error";
 
 const errorLink = onError(({ graphQLErrors, networkError }: any) => {
@@ -20,8 +20,10 @@ const httpLink = createHttpLink({
   uri: `http://localhost:5000/graphql`,
 });
 
+
+
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: cache,
   link: ApolloLink.from([errorLink, httpLink]),
 });
 

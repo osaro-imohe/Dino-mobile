@@ -48,7 +48,6 @@ const NewGroup = ({ isOpen }: Props) => {
   const { state, setState } = useContext(Context);
 
   const [route, setRoute] = useState(1);
-  const [loading, setLoading] = useState(false);
 
   const [joinCode, setJoinCode] = useState("");
   const [groupName, setGroupName] = useState("");
@@ -64,29 +63,7 @@ const NewGroup = ({ isOpen }: Props) => {
       return false;
     };
 
-    const [createGroup, { data }] = useMutation(CreateGroup, {
-      onCompleted: async (data) => {
-        setLoading(false);
-        console.log(data);
-        try {
-          let groups = await AsyncStorage.getItem("groups");
-          if(groups === null) await AsyncStorage.setItem("groups", JSON.stringify([]))
-          if(groups !== null) {
-            const groups_array = JSON.parse(groups)
-            groups_array.push(data.CreateGroup)
-            await AsyncStorage.setItem("groups",JSON.stringify(groups_array))
-            setState({
-              groups: [...state.groups, data.CreateGroup]
-            })
-          }
-        } catch (error) {
-          throw new Error(error);
-        }
-      },
-      onError: (error) => {
-        setLoading(false);
-      },
-    });
+    const [createGroup, { data, loading }] = useMutation(CreateGroup);
 
     const checkGroupName = () => {
       if (groupName.length < 1) return true;
@@ -94,8 +71,6 @@ const NewGroup = ({ isOpen }: Props) => {
     };
 
     const newGroup = () => {
-      setLoading(true);
-      console.log(state.userId);
       createGroup({
         variables: {
           user_id: parseInt(state.userId),
@@ -103,6 +78,14 @@ const NewGroup = ({ isOpen }: Props) => {
           photo_url: "",
         },
       });
+    };
+
+    const showLoader = () => {
+      return loading ? (
+        <ActivityIndicator size="small" color={colors.white} />
+      ) : (
+        <Icon name="groupplus" color={colors.white} />
+      );
     };
 
     switch (route) {
@@ -186,11 +169,7 @@ const NewGroup = ({ isOpen }: Props) => {
                     : styles.newGroupJoinButton
                 }
               >
-                {loading ? (
-                  <ActivityIndicator size="small" color={colors.white} />
-                ) : (
-                  <Icon name="groupplus" color={colors.white} />
-                )}
+                {showLoader()}
               </TouchableOpacity>
             </View>
           </View>
@@ -223,11 +202,7 @@ const NewGroup = ({ isOpen }: Props) => {
                 }
                 onPress={newGroup}
               >
-                {loading ? (
-                  <ActivityIndicator size="small" color={colors.white} />
-                ) : (
-                  <Icon name="groupplus" color={colors.white} />
-                )}
+                {showLoader()}
               </TouchableOpacity>
             </View>
           </View>

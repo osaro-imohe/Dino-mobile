@@ -21,7 +21,7 @@ import { CreateGroup, JoinGroup } from "../../graphql/mutations/Groups";
 import { useMutation } from "@apollo/client";
 import { Context } from "../../context";
 import { GetGroups } from "../../graphql/queries/Groups";
-import { NewGroupError } from '../Errors/index';
+import { NewGroupError } from "../Errors/index";
 import { onError } from "apollo-link-error";
 
 type Props = {
@@ -35,7 +35,6 @@ export const NewGroupModalContext = createContext<{
   isOpen: false,
   setOpen: () => {},
 });
-
 
 const NewGroup = ({ isOpen }: Props) => {
   const modalizeRef = useRef<Modalize>(null);
@@ -62,7 +61,10 @@ const NewGroup = ({ isOpen }: Props) => {
       return false;
     };
 
-    const [createGroup, { data: createData, loading:createLoading, error: createError }] = useMutation(CreateGroup, {
+    const [
+      createGroup,
+      { data: createData, loading: createLoading, error: createError },
+    ] = useMutation(CreateGroup, {
       update(cache, { data }) {
         const newGroup = data?.CreateGroup.groups;
         const existingGroups: any = cache.readQuery({
@@ -84,12 +86,15 @@ const NewGroup = ({ isOpen }: Props) => {
         });
       },
       onError: (error) => {
-        console.log(`error: ${error.message}`)
-      }
+        console.log(`error: ${error.message}`);
+      },
     });
 
-    const [joinGroup, {data: joinData, loading: joinLoading, error: joinError}] = useMutation(JoinGroup, {
-      update(cache, {data}){
+    const [
+      joinGroup,
+      { data: joinData, loading: joinLoading, error: joinError },
+    ] = useMutation(JoinGroup, {
+      update(cache, { data }) {
         const newGroup = data?.JoinGroup.groups;
         const existingGroups: any = cache.readQuery({
           query: GetGroups,
@@ -97,22 +102,22 @@ const NewGroup = ({ isOpen }: Props) => {
             user_id: parseInt(state.userId),
           },
         });
-      cache.writeQuery({
-        query: GetGroups,
+        cache.writeQuery({
+          query: GetGroups,
           variables: {
             user_id: parseInt(state.userId),
           },
-          data:{
+          data: {
             GetGroups: {
-              groups: [...existingGroups.GetGroups.groups,newGroup]
-            }
-          }
-      });
-    },
-    onError: (error) => {
-      console.log(`error: ${error.message}`)
-    }
-    })
+              groups: [...existingGroups.GetGroups.groups, newGroup],
+            },
+          },
+        });
+      },
+      onError: (error) => {
+        console.log(`error: ${error.message}`);
+      },
+    });
 
     const checkGroupName = () => {
       if (groupName.length < 1) return true;
@@ -133,10 +138,10 @@ const NewGroup = ({ isOpen }: Props) => {
       joinGroup({
         variables: {
           user_id: parseInt(state.userId),
-          invite_code: joinCode
-        }
-      })
-    }
+          invite_code: joinCode,
+        },
+      });
+    };
 
     const showCreateLoader = () => {
       return createLoading ? (
@@ -152,19 +157,19 @@ const NewGroup = ({ isOpen }: Props) => {
       ) : (
         <Icon name="groupplus" color={colors.white} />
       );
-    }
+    };
 
     const showCreateError = () => {
-      return createError ?  (
-        <NewGroupError errorMessage={createError.message}/>
-      ) :  null
-    }
+      return createError ? (
+        <NewGroupError errorMessage={createError.message} />
+      ) : null;
+    };
 
     const showJoinError = () => {
-      return joinError ?  (
-        <NewGroupError errorMessage={joinError.message}/>
-      ) :  null
-    }
+      return joinError ? (
+        <NewGroupError errorMessage={joinError.message} />
+      ) : null;
+    };
 
     switch (route) {
       case 1:

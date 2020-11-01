@@ -8,9 +8,9 @@ import { useLazyQuery } from "@apollo/client";
 import { GetGroups } from "../../graphql/queries/Groups";
 import { colors } from "../../utils";
 
-type Props = { 
-  errorMessage: string 
-}
+type Props = {
+  errorMessage: string;
+};
 
 export const AuthError = ({ errorMessage }: Props) => {
   return (
@@ -47,8 +47,6 @@ export const GroupError = ({ errorMessage }: Props) => {
   );
 };
 
-export const NewGroupError = ({errorMessage}: Props) => {
-  return (
-    <Text style={styles.joinErrorMessage}>{errorMessage}</Text>
-  );
-}
+export const NewGroupError = ({ errorMessage }: Props) => {
+  return <Text style={styles.joinErrorMessage}>{errorMessage}</Text>;
+};

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { View, Text } from "react-native";
 import getStyles from "./styles";
 import { useColorScheme } from "react-native";
@@ -8,10 +8,10 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Group from "../../../components/Group";
 import { NewGroupModalContext } from "../../../components/NewGroup";
 import { Context } from "../../../context";
-
-const url1 = `https://images.unsplash.com/photo-1554475901-4538ddfbccc2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1952&q=80`;
-const url2 = `https://images.unsplash.com/photo-1590959651373-a3db0f38a961?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1537&q=80`;
-const url3 = `https://images.unsplash.com/photo-1509228468518-180dd4864904?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80`;
+import { useQuery } from "@apollo/client";
+import { GetGroups } from "../../../graphql/queries/Groups";
+import { useLazyQuery } from "@apollo/client";
+import { GroupError } from "../../../components/Errors";
 
 const Groups = () => {
   const colorScheme = useColorScheme();
@@ -20,8 +20,49 @@ const Groups = () => {
 
   const { state, setState } = useContext(Context);
 
+  const [getGroups, { data, loading, error }] = useLazyQuery(GetGroups);
+
   const openModal = () => {
     context.setOpen(true);
+  };
+
+  useEffect(() => {
+    console.log(state.userId);
+    getGroups({
+      variables: {
+        user_id: parseInt(state.userId),
+      },
+    });
+  }, []);
+
+  const showGroupsOrError = () => {
+    return error ? (
+      <GroupError errorMessage={error.message + " " + "click to retry"} />
+    ) : data && data.GetGroups.groups.length ? (
+      data.GetGroups.groups.map((group: any) => {
+        return (
+          <Group
+            key={group.id}
+            groupId={group.id}
+            groupName={group.name}
+            //uncomment the line below and delete photoUrl = 'hello' once you've started saving strings
+            // photoUrl={group.photo_url}
+            photoUrl='hello'
+            inviteCode = {group.photo_url}
+            description = {group.description}
+            adminUserId = {group.admin_user_id}
+            numberOfMembers={group.number_of_members}
+          />
+        );
+      })
+    ) : (
+      <>
+        <Text style={styles.nogroups}>
+          Looks like you aren't in any groups, join or create a group to get
+          started.
+        </Text>
+      </>
+    );
   };
 
   return (
@@ -39,8 +80,7 @@ const Groups = () => {
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.groupScrollView}>
-        <Group groupName="Physics" logoUrl={url2} numberOfParticipants={69} />
-        <Group groupName="Math" logoUrl={url3} numberOfParticipants={53} />
+        {showGroupsOrError()}
       </ScrollView>
     </View>
   );

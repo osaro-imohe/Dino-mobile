@@ -17,10 +17,10 @@ const App = () => {
           <NewGroupModalContext.Provider
             value={{ isOpen: modalIsOpen, setOpen: setModal }}
           >
-            <Fragment>
+            <>
               <Navigation />
               <Modal isOpen={modalIsOpen} />
-            </Fragment>
+            </>
           </NewGroupModalContext.Provider>
         </AppearanceProvider>
       </ApolloProvider>

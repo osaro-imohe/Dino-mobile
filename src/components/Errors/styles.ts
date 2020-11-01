@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     color: colors.cherry,
     fontSize: getHeight(16),
   },
+  joinErrorMessage: {
+    color: colors.cherry,
+    fontSize: getHeight(16),
+    marginTop: getHeight(10),
+  }
 });
 
 export default styles;

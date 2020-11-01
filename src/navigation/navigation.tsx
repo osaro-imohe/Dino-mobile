@@ -96,11 +96,11 @@ const Navigation = () => {
         initialRouteName="AppIntro"
       >
         {state.token == "" ? (
-          <Fragment>
+          <>
             <Stack.Screen name="AppIntro" component={AppIntro} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
-          </Fragment>
+          </>
         ) : (
           <Stack.Screen name="Dashboard" component={TabNavigator} />
         )}

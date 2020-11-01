@@ -4,8 +4,6 @@ import React, {
   useContext,
   useState,
   useRef,
-  Fragment,
-  useEffect,
 } from "react";
 import { useColorScheme } from "react-native-appearance";
 import {
@@ -13,18 +11,18 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  AsyncStorage,
   ActivityIndicator,
 } from "react-native";
 import getStyles from "./styles";
 import Icon from "../../assets/icons";
-import { colors, getHeight } from "../../utils/";
+import { colors, getHeight } from "../../utils";
 import { Modalize } from "react-native-modalize";
-import { CreateGroup } from "../../graphql/mutations/Groups";
+import { CreateGroup, JoinGroup } from "../../graphql/mutations/Groups";
 import { useMutation } from "@apollo/client";
-import { GroupError } from "../Errors/index";
-import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 import { Context } from "../../context";
+import { GetGroups } from "../../graphql/queries/Groups";
+import { NewGroupError } from '../Errors/index';
+import { onError } from "apollo-link-error";
 
 type Props = {
   isOpen: boolean;
@@ -38,6 +36,7 @@ export const NewGroupModalContext = createContext<{
   setOpen: () => {},
 });
 
+
 const NewGroup = ({ isOpen }: Props) => {
   const modalizeRef = useRef<Modalize>(null);
   const colorScheme = useColorScheme();
@@ -48,7 +47,6 @@ const NewGroup = ({ isOpen }: Props) => {
   const { state, setState } = useContext(Context);
 
   const [route, setRoute] = useState(1);
-  const [loading, setLoading] = useState(false);
 
   const [joinCode, setJoinCode] = useState("");
   const [groupName, setGroupName] = useState("");
@@ -64,29 +62,57 @@ const NewGroup = ({ isOpen }: Props) => {
       return false;
     };
 
-    const [createGroup, { data }] = useMutation(CreateGroup, {
-      onCompleted: async (data) => {
-        setLoading(false);
-        console.log(data);
-        try {
-          let groups = await AsyncStorage.getItem("groups");
-          if(groups === null) await AsyncStorage.setItem("groups", JSON.stringify([]))
-          if(groups !== null) {
-            const groups_array = JSON.parse(groups)
-            groups_array.push(data.CreateGroup)
-            await AsyncStorage.setItem("groups",JSON.stringify(groups_array))
-            setState({
-              groups: [...state.groups, data.CreateGroup]
-            })
-          }
-        } catch (error) {
-          throw new Error(error);
-        }
+    const [createGroup, { data: createData, loading:createLoading, error: createError }] = useMutation(CreateGroup, {
+      update(cache, { data }) {
+        const newGroup = data?.CreateGroup.groups;
+        const existingGroups: any = cache.readQuery({
+          query: GetGroups,
+          variables: {
+            user_id: parseInt(state.userId),
+          },
+        });
+        cache.writeQuery({
+          query: GetGroups,
+          variables: {
+            user_id: parseInt(state.userId),
+          },
+          data: {
+            GetGroups: {
+              groups: [...existingGroups?.GetGroups.groups, newGroup],
+            },
+          },
+        });
       },
       onError: (error) => {
-        setLoading(false);
-      },
+        console.log(`error: ${error.message}`)
+      }
     });
+
+    const [joinGroup, {data: joinData, loading: joinLoading, error: joinError}] = useMutation(JoinGroup, {
+      update(cache, {data}){
+        const newGroup = data?.JoinGroup.groups;
+        const existingGroups: any = cache.readQuery({
+          query: GetGroups,
+          variables: {
+            user_id: parseInt(state.userId),
+          },
+        });
+      cache.writeQuery({
+        query: GetGroups,
+          variables: {
+            user_id: parseInt(state.userId),
+          },
+          data:{
+            GetGroups: {
+              groups: [...existingGroups.GetGroups.groups,newGroup]
+            }
+          }
+      });
+    },
+    onError: (error) => {
+      console.log(`error: ${error.message}`)
+    }
+    })
 
     const checkGroupName = () => {
       if (groupName.length < 1) return true;
@@ -94,8 +120,6 @@ const NewGroup = ({ isOpen }: Props) => {
     };
 
     const newGroup = () => {
-      setLoading(true);
-      console.log(state.userId);
       createGroup({
         variables: {
           user_id: parseInt(state.userId),
@@ -105,10 +129,47 @@ const NewGroup = ({ isOpen }: Props) => {
       });
     };
 
+    const joinExistingGroup = () => {
+      joinGroup({
+        variables: {
+          user_id: parseInt(state.userId),
+          invite_code: joinCode
+        }
+      })
+    }
+
+    const showCreateLoader = () => {
+      return createLoading ? (
+        <ActivityIndicator size="small" color={colors.white} />
+      ) : (
+        <Icon name="groupplus" color={colors.white} />
+      );
+    };
+
+    const showJoinLoader = () => {
+      return joinLoading ? (
+        <ActivityIndicator size="small" color={colors.white} />
+      ) : (
+        <Icon name="groupplus" color={colors.white} />
+      );
+    }
+
+    const showCreateError = () => {
+      return createError ?  (
+        <NewGroupError errorMessage={createError.message}/>
+      ) :  null
+    }
+
+    const showJoinError = () => {
+      return joinError ?  (
+        <NewGroupError errorMessage={joinError.message}/>
+      ) :  null
+    }
+
     switch (route) {
       case 1:
         return (
-          <Fragment>
+          <>
             <TouchableOpacity
               style={styles.newGroupOptions}
               onPress={() => setRoute(2)}
@@ -157,7 +218,7 @@ const NewGroup = ({ isOpen }: Props) => {
                 />
               </View>
             </TouchableOpacity>
-          </Fragment>
+          </>
         );
       case 2:
         return (
@@ -185,14 +246,12 @@ const NewGroup = ({ isOpen }: Props) => {
                     ? styles.newGroupJoinButtonDisabled
                     : styles.newGroupJoinButton
                 }
+                onPress={joinExistingGroup}
               >
-                {loading ? (
-                  <ActivityIndicator size="small" color={colors.white} />
-                ) : (
-                  <Icon name="groupplus" color={colors.white} />
-                )}
+                {showJoinLoader()}
               </TouchableOpacity>
             </View>
+            {showJoinError()}
           </View>
         );
       case 3:
@@ -223,13 +282,10 @@ const NewGroup = ({ isOpen }: Props) => {
                 }
                 onPress={newGroup}
               >
-                {loading ? (
-                  <ActivityIndicator size="small" color={colors.white} />
-                ) : (
-                  <Icon name="groupplus" color={colors.white} />
-                )}
+                {showCreateLoader()}
               </TouchableOpacity>
             </View>
+            {showCreateError()}
           </View>
         );
       default:
@@ -254,7 +310,7 @@ const NewGroup = ({ isOpen }: Props) => {
     <Modalize
       modalStyle={styles.newGroupModal}
       ref={modalizeRef}
-      modalHeight={getHeight(250)}
+      modalHeight={getHeight(350)}
       onClose={onClosed}
     >
       {showRoute()}

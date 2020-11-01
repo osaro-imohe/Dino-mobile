@@ -48,6 +48,19 @@ const styles = (colorScheme: any) =>
       width: "100%",
       height: "100%",
     },
+    nogroups: {
+      borderWidth: getHeight(1),
+      borderColor: colors.dork,
+      paddingLeft: getWidth(10),
+      paddingRight: getWidth(10),
+      paddingTop: getHeight(10),
+      paddingBottom:getHeight(10),
+      borderRadius: getHeight(5),
+      fontSize: getHeight(15),
+      fontWeight: '200',
+      borderStyle: 'solid',
+      color: colorScheme === 'light' ? colors.black : colors.white
+    }
   });
 
 export default styles;

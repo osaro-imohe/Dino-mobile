@@ -27,19 +27,30 @@ const Login = ({ navigation }: ScreenProp) => {
   //signIn mutation, data and mutation attributes
   const [signIn, { loading }] = useMutation(SignIn, {
     onCompleted: async (data) => {
-      setIsLoading(false);
       try {
         await AsyncStorage.setItem("token", `${data.SignIn.token}`);
+        await AsyncStorage.setItem("userId", `${data.SignIn.user_id}`);
+        await AsyncStorage.setItem("firstName", `${data.SignIn.first_name}`);
+        await AsyncStorage.setItem("lastName", `${data.SignIn.last_name}`);
+        await AsyncStorage.setItem("email", `${data.SignIn.email}`);
         const token = await AsyncStorage.getItem("token");
+        const userId = await AsyncStorage.getItem("userId");
+        const firstName = await AsyncStorage.getItem("firstName");
+        const lastName = await AsyncStorage.getItem("lastName");
+        const email = await AsyncStorage.getItem("email");
         setState({
-          token: token,
+          token,
+          userId,
+          firstName,
+          lastName,
+          email,
+          password: "",
         });
       } catch (error) {
         throw new Error(error);
       }
     },
     onError: async (error) => {
-      setIsLoading(false);
       setIsError({
         error: error.message,
         showError: true,
@@ -51,7 +62,6 @@ const Login = ({ navigation }: ScreenProp) => {
   const { state, setState, resetState } = useContext(Context);
 
   //local component state
-  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState({
     error: "",
     showError: false,
@@ -70,7 +80,6 @@ const Login = ({ navigation }: ScreenProp) => {
   }, []);
 
   const authenticateUser = () => {
-    setIsLoading(true);
     setIsError({
       error: "",
       showError: false,
@@ -89,7 +98,7 @@ const Login = ({ navigation }: ScreenProp) => {
         disabled={checkValid()}
         onPress={authenticateUser}
       >
-        {isLoading ? (
+        {loading ? (
           <ActivityIndicator size="small" color={colors.white} />
         ) : (
           <Text style={styles.loginText}>Log In</Text>

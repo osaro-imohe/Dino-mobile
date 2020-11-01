@@ -10,10 +10,15 @@ import { Context } from "../../../context/index";
 const Account = () => {
   const colorScheme = useColorScheme();
   const styles = getStyles(colorScheme);
-  const { setState } = useContext(Context);
+  const { state,setState } = useContext(Context);
   const clear = async () => {
     try {
       await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("firstName");
+      await AsyncStorage.removeItem("lastName");
+      await AsyncStorage.removeItem("email");
+      await AsyncStorage.removeItem("userId");
+
       setState({
         token: "",
       });
@@ -27,8 +32,8 @@ const Account = () => {
       <View style={{ flexDirection: "row", marginBottom: getHeight(45) }}>
         <Image style={styles.accountImage} />
         <View style={styles.accountInfo}>
-          <Text style={styles.accountInfoName}>James</Text>
-          <Text style={styles.accountInfoEmail}>james@gmail.com</Text>
+        <Text style={styles.accountInfoName}>{state.firstName}</Text>
+        <Text style={styles.accountInfoEmail}>{state.email}</Text>
         </View>
       </View>
       <TouchableOpacity>

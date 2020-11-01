@@ -14,11 +14,11 @@ export const SignUp = gql`
       last_name: $last_name
     ) {
       token
-      response
       user_id
       first_name
       last_name
       email
+      response
     }
   }
 `;
@@ -26,11 +26,12 @@ export const SignUp = gql`
 export const SignIn = gql`
   mutation SignIn($email: String!, $password: String) {
     SignIn(email: $email, password: $password) {
-      id
+      token
+      user_id
       first_name
       last_name
       email
-      token
+      response
     }
   }
 `;

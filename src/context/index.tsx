@@ -15,7 +15,6 @@ const ContextProvider = ({ children }) => {
     password: "",
     token: "",
     userId: 0,
-    groups: [],
   });
   const resetState = () => {
     setState({

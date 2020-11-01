@@ -24,6 +24,8 @@ const styles = (colorScheme: any) =>
       marginLeft: getWidth(13),
       color: colorScheme === "light" ? colors.black : colors.white,
       fontWeight: "bold",
+      overflow: "hidden",
+      width: getWidth(120),
     },
     groupParticipantsContainer: {
       right: 0,

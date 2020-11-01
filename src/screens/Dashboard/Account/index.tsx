@@ -10,7 +10,7 @@ import { Context } from "../../../context/index";
 const Account = () => {
   const colorScheme = useColorScheme();
   const styles = getStyles(colorScheme);
-  const { state,setState } = useContext(Context);
+  const { state, setState } = useContext(Context);
   const clear = async () => {
     try {
       await AsyncStorage.removeItem("token");
@@ -32,8 +32,8 @@ const Account = () => {
       <View style={{ flexDirection: "row", marginBottom: getHeight(45) }}>
         <Image style={styles.accountImage} />
         <View style={styles.accountInfo}>
-        <Text style={styles.accountInfoName}>{state.firstName}</Text>
-        <Text style={styles.accountInfoEmail}>{state.email}</Text>
+          <Text style={styles.accountInfoName}>{state.firstName}</Text>
+          <Text style={styles.accountInfoEmail}>{state.email}</Text>
         </View>
       </View>
       <TouchableOpacity>

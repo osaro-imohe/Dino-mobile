@@ -47,10 +47,10 @@ const Groups = () => {
             groupName={group.name}
             //uncomment the line below and delete photoUrl = 'hello' once you've started saving strings
             // photoUrl={group.photo_url}
-            photoUrl='hello'
-            inviteCode = {group.photo_url}
-            description = {group.description}
-            adminUserId = {group.admin_user_id}
+            photoUrl="hello"
+            inviteCode={group.photo_url}
+            description={group.description}
+            adminUserId={group.admin_user_id}
             numberOfMembers={group.number_of_members}
           />
         );

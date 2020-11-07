@@ -37,7 +37,7 @@ const Groups = () => {
 
   const showGroupsOrError = () => {
     return error ? (
-      <GroupError errorMessage={error.message + " " + "click to retry"} />
+      <GroupError errorMessage={`${error.message}, click here to retry`} />
     ) : data && data.GetGroups.groups.length ? (
       data.GetGroups.groups.map((group: any) => {
         return (

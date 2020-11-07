@@ -1,36 +1,36 @@
 import { StyleSheet } from "react-native";
 import { getHeight, getWidth, colors } from "../../utils";
 
-const styles = (colorScheme: any, showModal: boolean) =>
+const styles = (colorScheme: any) =>
   StyleSheet.create({
     newPostContainer: {
       width: "100%",
-      height: showModal ? "100%" : "0%",
+      height: "100%",
       backgroundColor: colorScheme === "light" ? colors.white : colors.black,
-      paddingLeft: getWidth(15),
-      paddingRight: getWidth(15),
+      // paddingLeft: getWidth(10),
+      // paddingRight: getWidth(10),
       paddingTop: getHeight(30),
       zIndex: 3,
       bottom: 0,
     },
     newPostCancel: {
       color: colors.cherry,
-      fontSize: showModal ? getHeight(15) : 0,
+      fontSize: getHeight(15),
       marginBottom: getHeight(20),
     },
     newPostUserImage: {
-      width: showModal ? 50 : 0,
-      height: showModal ? 50 : 0,
+      width: 50,
+      height: 50,
       backgroundColor: colors.dork,
       borderRadius: 100,
     },
     newPostInput: {
-      width: showModal ? getWidth(230) : 0,
+      width: getWidth(230),
       right: 0,
-      paddingLeft: showModal ? getWidth(10) : 0,
-      paddingRight: showModal ? getWidth(10) : 0,
-      paddingTop: showModal ? getHeight(10) : 0,
-      paddingBottom: showModal ? getHeight(10) : 0,
+      paddingLeft: getWidth(10),
+      paddingRight: getWidth(10),
+      paddingTop: getHeight(10),
+      paddingBottom: getHeight(10),
       marginLeft: getWidth(10),
       justifyContent: "flex-end",
       color: colorScheme === "light" ? colors.black : colors.white,
@@ -38,6 +38,39 @@ const styles = (colorScheme: any, showModal: boolean) =>
     newPostAlign: {
       padding: 0,
       flexDirection: "row",
+    },
+    newPostSend: {
+      top: 0,
+      right: 0,
+      zIndex: 2,
+      color: colors.white,
+      borderRadius: 100,
+      alignItems: "center",
+      position: "absolute",
+      alignContent: "center",
+      justifyContent: "center",
+      width: 100,
+      height: 30,
+      marginTop: getHeight(25),
+      backgroundColor: colors.cherry,
+    },
+    newPostSendDisabled: {
+      top: 0,
+      right: 0,
+      zIndex: 2,
+      color: colors.white,
+      borderRadius: 100,
+      alignItems: "center",
+      position: "absolute",
+      alignContent: "center",
+      justifyContent: "center",
+      width: 100,
+      height: 30,
+      marginTop: getHeight(25),
+      backgroundColor: colorScheme === "light" ? colors.lightGray : colors.grok,
+    },
+    newPostSendText: {
+      color: colors.white,
     },
   });
 

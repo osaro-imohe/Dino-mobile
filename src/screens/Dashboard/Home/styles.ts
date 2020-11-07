@@ -6,6 +6,7 @@ const styles = (colorScheme: any) =>
     homeContainer: {
       width: "100%",
       height: "100%",
+      flex: 1,
       paddingLeft: getWidth(20),
       paddingRight: getWidth(20),
       paddingTop: getHeight(60),

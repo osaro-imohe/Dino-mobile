@@ -25,6 +25,25 @@ const styles = StyleSheet.create({
     fontSize: getHeight(16),
     marginTop: getHeight(10),
   },
+  newPostErrorContainer: {
+    borderWidth: 1,
+    borderColor: colors.cherry,
+    paddingTop: getHeight(10),
+    paddingBottom: getHeight(10),
+    paddingLeft: getWidth(5),
+    paddingRight: getWidth(5),
+    width: getWidth(325),
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    borderRadius: 10,
+    marginTop: getHeight(20),
+    marginBottom: getHeight(20),
+  },
+  newPostErrorMessage: {
+    color: colors.cherry,
+    fontSize: getHeight(16),
+  },
 });
 
 export default styles;

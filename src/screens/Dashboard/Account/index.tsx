@@ -6,6 +6,8 @@ import { colors, getHeight, getWidth } from "../../../utils";
 import Icon from "../../../assets/icons";
 import { AsyncStorage } from "react-native";
 import { Context } from "../../../context/index";
+import client from "../../../graphql/client";
+import { cache } from "../../../graphql/cache";
 
 const Account = () => {
   const colorScheme = useColorScheme();
@@ -18,13 +20,13 @@ const Account = () => {
       await AsyncStorage.removeItem("lastName");
       await AsyncStorage.removeItem("email");
       await AsyncStorage.removeItem("userId");
-
       setState({
         token: "",
       });
     } catch (error) {
       throw new Error(error);
     }
+    await client.resetStore();
   };
   return (
     <View style={styles.accountContainer}>

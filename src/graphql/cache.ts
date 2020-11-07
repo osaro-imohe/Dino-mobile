@@ -7,6 +7,9 @@ export const cache = new InMemoryCache({
         groups: {
           keyArgs: [],
         },
+        posts: {
+          keyArgs: [],
+        },
       },
     },
   },

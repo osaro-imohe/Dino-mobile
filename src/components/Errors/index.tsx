@@ -50,3 +50,19 @@ export const GroupError = ({ errorMessage }: Props) => {
 export const NewGroupError = ({ errorMessage }: Props) => {
   return <Text style={styles.joinErrorMessage}>{errorMessage}</Text>;
 };
+
+export const NewPostError = ({ errorMessage }: Props) => {
+  return (
+    <View style={styles.newPostErrorContainer}>
+      <Text style={styles.newPostErrorMessage}>{errorMessage}</Text>
+    </View>
+  );
+};
+
+export const GetPostsError = ({ errorMessage }: Props) => {
+  return (
+    <View style={styles.newPostErrorContainer}>
+      <Text style={styles.newPostErrorMessage}>{errorMessage}</Text>
+    </View>
+  );
+};

@@ -22,7 +22,9 @@ import { useMutation } from "@apollo/client";
 import { Context } from "../../context";
 import { GetGroups } from "../../graphql/queries/Groups";
 import { NewGroupError } from "../Errors/index";
-import { onError } from "apollo-link-error";
+import { currentGroupVar } from "../../graphql/reactivevariables";
+import client from "../../graphql/client";
+import { cache } from "../../graphql/cache";
 
 type Props = {
   isOpen: boolean;
@@ -86,7 +88,26 @@ const NewGroup = ({ isOpen }: Props) => {
         });
       },
       onError: (error) => {
-        console.log(`error: ${error.message}`);
+        throw new Error(`error: ${error.message}`);
+      },
+      onCompleted: () => {
+        const groups: any = cache.readQuery({
+          query: GetGroups,
+          variables: {
+            user_id: parseInt(state.userId),
+          },
+        });
+        const newestGroup =
+          groups.GetGroups.groups[groups.GetGroups.groups.length - 1];
+        currentGroupVar({
+          id: newestGroup.id,
+          name: newestGroup.name,
+          photoUrl: newestGroup.number_of_members,
+          inviteCode: newestGroup.photo_url,
+          description: newestGroup.admin_user_id,
+          adminUserId: newestGroup.description,
+          numberOfMembers: newestGroup.invite_code,
+        });
       },
     });
 
@@ -115,7 +136,26 @@ const NewGroup = ({ isOpen }: Props) => {
         });
       },
       onError: (error) => {
-        console.log(`error: ${error.message}`);
+        throw new Error(`error: ${error.message}`);
+      },
+      onCompleted: () => {
+        const groups: any = cache.readQuery({
+          query: GetGroups,
+          variables: {
+            user_id: parseInt(state.userId),
+          },
+        });
+        const newestGroup =
+          groups.GetGroups.groups[groups.GetGroups.groups.length - 1];
+        currentGroupVar({
+          id: newestGroup.id,
+          name: newestGroup.name,
+          photoUrl: newestGroup.number_of_members,
+          inviteCode: newestGroup.photo_url,
+          description: newestGroup.admin_user_id,
+          adminUserId: newestGroup.description,
+          numberOfMembers: newestGroup.invite_code,
+        });
       },
     });
 

@@ -33,7 +33,7 @@ const styles = (colorScheme: any) =>
     groupParticipantsContainer: {
       right: 0,
       position: "absolute",
-      flexDirection: "row"
+      flexDirection: "row",
     },
     groupParticipantsHeader: {
       color: colors.dork,

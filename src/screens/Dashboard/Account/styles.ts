@@ -23,6 +23,15 @@ const styles = (colorScheme: any) =>
       backgroundColor: colors.darkGray,
       borderRadius: 10,
     },
+    noAccountImage: {
+      width: 100,
+      height: 100,
+      borderColor: colors.dork,
+      borderWidth: 1,
+      borderRadius: 10,
+      alignItems: "center",
+      justifyContent: "center",
+    },
     accountInfo: {
       marginLeft: getWidth(18),
     },

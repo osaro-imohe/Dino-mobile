@@ -6,7 +6,6 @@ import { colors } from "../../utils";
 import { useState } from "react";
 import { useColorScheme } from "react-native-appearance";
 import { Context } from "../../context";
-import { _DEFAULT_INITIAL_PLAYBACK_STATUS } from "expo-av/build/AV";
 
 export const CustomFirstNameInput = () => {
   const { state, setState } = useContext(Context);

@@ -1,18 +1,54 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import getStyles from "./styles";
 import { useColorScheme } from "react-native-appearance";
 import { colors, getHeight, getWidth } from "../../../utils";
 import Icon from "../../../assets/icons";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Platform, Alert } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
 import { Context } from "../../../context/index";
 import client from "../../../graphql/client";
 import { cache } from "../../../graphql/cache";
+
+type imageProps = any | null;
 
 const Account = () => {
   const colorScheme = useColorScheme();
   const styles = getStyles(colorScheme);
   const { state, setState } = useContext(Context);
+
+  const [image, setImage] = useState<imageProps>(null);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const {
+          status,
+        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        if (status !== "granted") {
+          Alert.alert(
+            "Sorry, we need camera roll permissions to make this work!"
+          );
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.cancelled) {
+      setImage(result);
+    }
+  };
+
   const clear = async () => {
     try {
       await AsyncStorage.removeItem("token");
@@ -20,8 +56,15 @@ const Account = () => {
       await AsyncStorage.removeItem("lastName");
       await AsyncStorage.removeItem("email");
       await AsyncStorage.removeItem("userId");
+      await AsyncStorage.removeItem("profilePictureUrl");
       setState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
         token: "",
+        userId: 0,
+        profilePictureUrl: "",
       });
     } catch (error) {
       throw new Error(error);
@@ -32,7 +75,15 @@ const Account = () => {
     <View style={styles.accountContainer}>
       <Text style={styles.accountHeader}>Account</Text>
       <View style={{ flexDirection: "row", marginBottom: getHeight(45) }}>
-        <Image style={styles.accountImage} />
+        <TouchableOpacity onPress={pickImage}>
+          {state.profilePictureUrl === null || !state.profilePictureUrl ? (
+            <View style={styles.noAccountImage}>
+              <Icon name="user" color={colors.dork} />
+            </View>
+          ) : (
+            <Image source={{ uri: "hello" }} style={styles.accountImage} />
+          )}
+        </TouchableOpacity>
         <View style={styles.accountInfo}>
           <Text style={styles.accountInfoName}>{state.firstName}</Text>
           <Text style={styles.accountInfoEmail}>{state.email}</Text>

@@ -1,3 +1,4 @@
+import { isNonEmptyArray } from "@apollo/client/utilities";
 import { StyleSheet } from "react-native";
 import { colors, getHeight, getWidth } from "../../utils";
 
@@ -31,6 +32,15 @@ const styles = (colorScheme: any) =>
       backgroundColor: colors.dork,
       borderRadius: 100,
     },
+    noPostProfileImage: {
+      width: 50,
+      height: 50,
+      borderColor: colors.dork,
+      borderWidth: 1,
+      borderRadius: 100,
+      alignItems: "center",
+      justifyContent: "center",
+    },
     postUser: {
       marginLeft: getWidth(10),
       marginBottom: 0,
@@ -51,9 +61,9 @@ const styles = (colorScheme: any) =>
     postImage: {
       width: "80%",
       height: getHeight(120),
-      backgroundColor: colors.dork,
       marginBottom: getHeight(10),
       borderRadius: 10,
+      borderWidth: 0,
       marginLeft: 50 + getWidth(10),
     },
     postLike: {

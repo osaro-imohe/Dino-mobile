@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useColorScheme } from "react-native-appearance";
 import getStyles from "./styles";
 import { currentGroupVar } from "../../graphql/reactivevariables";
+import Icon from "../../assets/icons";
+import { colors } from "../../utils";
 
 type Props = {
   groupId: number;
@@ -13,6 +15,7 @@ type Props = {
   adminUserId: number;
   numberOfMembers: number;
   onPress?: any;
+  navigation: any;
 };
 
 const Group = ({
@@ -23,13 +26,14 @@ const Group = ({
   description,
   adminUserId,
   numberOfMembers,
+  navigation,
 }: Props) => {
   const colorScheme = useColorScheme();
   const styles = getStyles(colorScheme);
 
   return (
     <TouchableOpacity
-      onPress={() =>
+      onPress={() => {
         currentGroupVar({
           id: groupId,
           name: groupName,
@@ -38,19 +42,18 @@ const Group = ({
           description: description,
           adminUserId: adminUserId,
           numberOfMembers: numberOfMembers,
-        })
-      }
+        });
+        navigation.navigate("Home");
+      }}
     >
-      <View style={styles.groupSegmentContinaer}>
-        <Image source={{ uri: photoUrl }} style={styles.groupSegmentImage} />
+      <View style={styles.groupSegmentContainer}>
+        <Image source={{ uri: "hello.jpg" }} style={styles.groupSegmentImage} />
         <Text style={styles.groupName} numberOfLines={1}>
           {groupName}
         </Text>
         <View style={styles.groupParticipantsContainer}>
-          <Text style={styles.groupParticipantsHeader}>
-            Number of participants
-          </Text>
-          <Text style={styles.groupParticipantsNumber}>{numberOfMembers}</Text>
+          <Icon name="users" color={colors.dork}/>
+          <Text style={styles.groupParticipantsNumber}>{'  '}{numberOfMembers}</Text>
         </View>
       </View>
     </TouchableOpacity>

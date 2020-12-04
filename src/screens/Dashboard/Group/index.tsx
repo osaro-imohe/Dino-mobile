@@ -1,19 +1,19 @@
 import React, { Fragment, useContext, useEffect } from "react";
 import { View, Text } from "react-native";
 import getStyles from "./styles";
-import { useColorScheme } from "react-native";
+import { useColorScheme } from "react-native-appearance";
 import Icon from "../../../assets/icons";
 import { colors } from "../../../utils";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Group from "../../../components/Group";
 import { NewGroupModalContext } from "../../../components/NewGroup";
 import { Context } from "../../../context";
-import { useQuery } from "@apollo/client";
 import { GetGroups } from "../../../graphql/queries/Groups";
 import { useLazyQuery } from "@apollo/client";
 import { GroupError } from "../../../components/Errors";
+import { ScreenProp } from "../../../definition";
 
-const Groups = () => {
+const Groups = ({ navigation }: ScreenProp) => {
   const colorScheme = useColorScheme();
   const styles = getStyles(colorScheme);
   const context = useContext(NewGroupModalContext);
@@ -47,11 +47,12 @@ const Groups = () => {
             groupName={group.name}
             //uncomment the line below and delete photoUrl = 'hello' once you've started saving strings
             // photoUrl={group.photo_url}
-            photoUrl="hello"
-            inviteCode={group.photo_url}
+            photoUrl=""
+            inviteCode={group.invite_code}
             description={group.description}
             adminUserId={group.admin_user_id}
             numberOfMembers={group.number_of_members}
+            navigation={navigation}
           />
         );
       })

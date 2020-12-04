@@ -27,23 +27,36 @@ const Login = ({ navigation }: ScreenProp) => {
   //signIn mutation, data and mutation attributes
   const [signIn, { loading }] = useMutation(SignIn, {
     onCompleted: async (data) => {
+      console.log(data);
       try {
         await AsyncStorage.setItem("token", `${data.SignIn.token}`);
         await AsyncStorage.setItem("userId", `${data.SignIn.user_id}`);
         await AsyncStorage.setItem("firstName", `${data.SignIn.first_name}`);
         await AsyncStorage.setItem("lastName", `${data.SignIn.last_name}`);
         await AsyncStorage.setItem("email", `${data.SignIn.email}`);
+        if (data.SignIn.profile_picture_url === null) {
+          await AsyncStorage.setItem("profile_picture_url", "");
+        } else {
+          await AsyncStorage.setItem(
+            "profile_picture_url",
+            `${data.SignIn.profile_picture_url}`
+          );
+        }
         const token = await AsyncStorage.getItem("token");
         const userId = await AsyncStorage.getItem("userId");
         const firstName = await AsyncStorage.getItem("firstName");
         const lastName = await AsyncStorage.getItem("lastName");
         const email = await AsyncStorage.getItem("email");
+        const profilePictureUrl = await AsyncStorage.getItem(
+          "profile_picture_url"
+        );
         setState({
           token,
           userId,
           firstName,
           lastName,
           email,
+          profilePictureUrl,
           password: "",
         });
       } catch (error) {

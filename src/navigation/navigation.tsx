@@ -5,16 +5,17 @@ import AppIntro from "../screens/AppIntro";
 import Login from "../screens/Auth/Login";
 import Signup from "../screens/Auth/Signup";
 import Home from "../screens/Dashboard/Home";
-import Groups from "../screens/Dashboard/Groups";
+import Groups from "../screens/Dashboard/Group";
 import Messages from "../screens/Dashboard/Messages";
 import Account from "../screens/Dashboard/Account";
+import Post from "../screens/Dashboard/Post";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "../assets/icons";
 import { colors } from "../utils";
 import { useColorScheme } from "react-native-appearance";
 import { AsyncStorage } from "react-native";
 import { Context } from "../context/index";
-import { set } from "react-native-reanimated";
+import GroupSettings from "../screens/Dashboard/GroupSettings";
 
 const Tab = createBottomTabNavigator();
 
@@ -71,14 +72,16 @@ const Navigation = () => {
         const firstName = await AsyncStorage.getItem("firstName");
         const lastName = await AsyncStorage.getItem("lastName");
         const email = await AsyncStorage.getItem("email");
-        const groups = await AsyncStorage.getItem("groups");
+        const profilePictureUrl = await AsyncStorage.getItem(
+          "profile_picture_url"
+        );
         setState({
           token,
           userId,
           firstName,
           lastName,
           email,
-          groups,
+          profilePictureUrl,
           password: "",
         });
       } catch (error) {
@@ -102,7 +105,11 @@ const Navigation = () => {
             <Stack.Screen name="Signup" component={Signup} />
           </>
         ) : (
-          <Stack.Screen name="Dashboard" component={TabNavigator} />
+          <>
+            <Stack.Screen name="Dashboard" component={TabNavigator} />
+            <Stack.Screen name="Post" component={Post} />
+            <Stack.Screen name="GroupSettings" component={GroupSettings} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

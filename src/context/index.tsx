@@ -15,6 +15,7 @@ const ContextProvider = ({ children }) => {
     password: "",
     token: "",
     userId: 0,
+    profilePictureUrl: "",
   });
   const resetState = () => {
     setState({

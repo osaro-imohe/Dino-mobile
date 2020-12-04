@@ -57,4 +57,6 @@ export const colors = {
   darkGray: "#383838",
   shadeGray: "#0d0d0d",
   whitesmoke: "#F5F5F5",
+  green: "#00FF00",
+  silver: "#E1E9EE",
 };

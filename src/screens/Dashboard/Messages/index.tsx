@@ -11,13 +11,9 @@ const Messages = () => {
     <View style={styles.messageContainer}>
       <Text style={styles.messageHeader}>Messages</Text>
       <ScrollView style={{ width: "100%", height: "100%" }}>
-        <Message name="Jerry" newestMessage="How was your day?" time="3:06" />
-        <Message
-          name="Sandra"
-          newestMessage="Turn in the assingment"
-          time="2:04"
-        />
-        <Message name="Donald" newestMessage="Submitted mine" time="4:20" />
+        {/* example of message component below */}
+        {/* <Message name="Jerry" newestMessage="How was your day?" time="3:06" /> */}
+        <Text style={styles.messageFeatureComing}>Coming soon</Text>
       </ScrollView>
     </View>
   );

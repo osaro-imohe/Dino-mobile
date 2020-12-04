@@ -1,64 +1,111 @@
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import getStyles from "./styles";
 import { useColorScheme } from "react-native-appearance";
 import Icon from "../../assets/icons";
-import { Video } from "expo-av";
-import { assertStatusValuesInBounds } from "expo-av/build/AV";
-import { colors, getWidth } from "../../utils";
+import { currentPostVar } from "../../graphql/reactivevariables";
+import { colors, getHeight, getWidth } from "../../utils";
+import ImageLoader from "../ImageLoader";
 
 type Post = {
+  id: number;
   first_name: string;
   last_name: string;
   profile_image_url: string;
   post: string;
   image_url: string;
+  navigation: any;
+  number_of_comments: any;
+  number_of_likes: any;
+  created_at: string;
 };
 
 const Post = ({
+  id,
   first_name,
   last_name,
   profile_image_url,
   post,
   image_url,
+  navigation,
+  number_of_comments,
+  number_of_likes,
+  created_at,
 }: Post) => {
   const colorScheme = useColorScheme();
   const styles = getStyles(colorScheme);
-
-  const showImage = () => {
-    if (image_url !== "")
-      return (
-        <Image
-          source={{
-            uri: `https://images.unsplash.com/photo-1503963325714-4b88d72d7ada?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80`,
-          }}
-          style={styles.postImage}
-        />
-      );
-  };
+  const [liked, setLiked] = useState(true);
+  const [imageLoading, setImageLoading] = useState(true);
 
   return (
-    <View style={styles.postContainer}>
+    <TouchableOpacity
+      style={styles.postContainer}
+      onPress={() => {
+        currentPostVar({
+          id,
+          firstName: first_name,
+          lastName: last_name,
+          message: post,
+          numberOfLikes: 0,
+          numberOfComments: 0,
+          postImageUrl: image_url,
+          profileImageUrl: profile_image_url,
+        });
+        navigation.navigate("Post");
+      }}
+    >
       <View style={styles.postAlign}>
-        <Image source={{ uri: "hello" }} style={styles.postProfileImage} />
+        {profile_image_url === "" ? (
+          <View style={styles.noPostProfileImage}>
+            <Icon name="user" color={colors.dork} />
+          </View>
+        ) : (
+          <Image source={{ uri: "hello" }} style={styles.postProfileImage} />
+        )}
         <Text style={styles.postUser}>
           {first_name} {last_name}
         </Text>
-        <Text style={styles.postTime}>Posted 30 minutes ago</Text>
+        <Text style={styles.postTime}>
+          Posted {new Date(parseInt(created_at)).toDateString()}
+        </Text>
       </View>
-      {showImage()}
+
+      {image_url === "" ? null : (
+        <View>
+          <Image
+            source={{ uri: image_url }}
+            style={styles.postImage}
+            onLoad={() => setImageLoading(false)}
+          />
+          {imageLoading ? (
+            <ImageLoader
+              width="80%"
+              height={getHeight(120)}
+              marginLeft={50 + getWidth(10)}
+              marginBottom={10}
+              borderRadius={8}
+              colorScheme={colorScheme}
+            />
+          ) : null}
+        </View>
+      )}
+
       <Text style={styles.postMessage}>{post}</Text>
       <View style={styles.postIconsAlign}>
         <View style={styles.postAlign}>
           <Icon name="comments" />
-          <Text style={styles.postActivityCounter}>10</Text>
+          <Text style={styles.postActivityCounter}>{number_of_comments}</Text>
         </View>
-        <View style={styles.postAlign}>
-          <Icon name="like" style={styles.postLike} />
-          <Text style={styles.postActivityCounter}>10</Text>
-        </View>
+        <TouchableOpacity style={styles.postAlign}>
+          {liked ? (
+            <Icon name="liked" style={styles.postLike} />
+          ) : (
+            <Icon name="like" style={styles.postLike} />
+          )}
+          <Text style={styles.postActivityCounter}>{number_of_likes}</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

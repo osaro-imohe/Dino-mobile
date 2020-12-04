@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { color } from "react-native-reanimated";
 import { colors, getHeight, getWidth } from "../../../utils";
 
 const styles = (colorScheme: any) => ({
@@ -15,6 +16,10 @@ const styles = (colorScheme: any) => ({
     fontSize: getHeight(30),
     fontWeight: "700",
     marginBottom: getHeight(15),
+  },
+  messageFeatureComing: {
+    color: colorScheme === "light" ? colors.black : colors.white,
+    fontSize: getHeight(20),
   },
 });
 

@@ -52,8 +52,11 @@ const Group = ({
           {groupName}
         </Text>
         <View style={styles.groupParticipantsContainer}>
-          <Icon name="users" color={colors.dork}/>
-          <Text style={styles.groupParticipantsNumber}>{'  '}{numberOfMembers}</Text>
+          <Icon name="users" color={colors.dork} />
+          <Text style={styles.groupParticipantsNumber}>
+            {"  "}
+            {numberOfMembers}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -102,11 +102,11 @@ const NewGroup = ({ isOpen }: Props) => {
         currentGroupVar({
           id: newestGroup.id,
           name: newestGroup.name,
-          photoUrl: newestGroup.number_of_members,
-          inviteCode: newestGroup.photo_url,
-          description: newestGroup.admin_user_id,
-          adminUserId: newestGroup.description,
-          numberOfMembers: newestGroup.invite_code,
+          photoUrl: newestGroup.photo_url,
+          inviteCode: newestGroup.invite_code,
+          description: newestGroup.description,
+          adminUserId: newestGroup.admin_user_id,
+          numberOfMembers: newestGroup.number_of_members,
         });
       },
     });
@@ -150,11 +150,11 @@ const NewGroup = ({ isOpen }: Props) => {
         currentGroupVar({
           id: newestGroup.id,
           name: newestGroup.name,
-          photoUrl: newestGroup.number_of_members,
-          inviteCode: newestGroup.photo_url,
-          description: newestGroup.admin_user_id,
-          adminUserId: newestGroup.description,
-          numberOfMembers: newestGroup.invite_code,
+          photoUrl: newestGroup.photo_url,
+          inviteCode: newestGroup.invite_code,
+          description: newestGroup.description,
+          adminUserId: newestGroup.admin_user_id,
+          numberOfMembers: newestGroup.number_of_members,
         });
       },
     });
@@ -224,10 +224,13 @@ const NewGroup = ({ isOpen }: Props) => {
                   flexDirection: "row",
                   alignSelf: "stretch",
                   alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
-                <Icon name="link" />
-                <Text style={styles.newGroupHeader}>Join a group</Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Icon name="link" />
+                  <Text style={styles.newGroupHeader}>Join a group</Text>
+                </View>
                 <Icon
                   name="rightarrow"
                   color={
@@ -248,10 +251,13 @@ const NewGroup = ({ isOpen }: Props) => {
                   flexDirection: "row",
                   alignSelf: "stretch",
                   alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
-                <Icon name="magicwand" />
-                <Text style={styles.newGroupHeader}>Create a group</Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Icon name="magicwand" />
+                  <Text style={styles.newGroupHeader}>Create a group</Text>
+                </View>
                 <Icon
                   name="rightarrow"
                   color={

@@ -16,14 +16,17 @@
   "dependencies": {
     "@apollo/client": "^3.2.3",
     "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.9.2",
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.9.2",
     "@types/fbemitter": "^2.0.32",
     "apollo-link-error": "^1.1.13",
+    "axios": "^0.21.0",
     "expo": "~39.0.2",
     "expo-av": "^8.6.0",
+    "expo-image-picker": "~9.1.0",
     "expo-status-bar": "~1.0.2",
     "graphql": "^15.3.0",
     "husky": "^4.3.0",
@@ -39,8 +42,11 @@
     "react-native-responsive-screen": "^1.4.1",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
+    "react-native-skeleton-placeholder": "^3.0.2",
     "react-native-svg": "^12.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-three-dots-loader": "^1.0.1",
+    "react-native-web": "~0.13.12",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@types/react": "~16.9.35",

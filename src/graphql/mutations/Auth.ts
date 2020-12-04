@@ -19,6 +19,7 @@ export const SignUp = gql`
       last_name
       email
       response
+      profile_picture_url
     }
   }
 `;
@@ -32,6 +33,7 @@ export const SignIn = gql`
       last_name
       email
       response
+      profile_picture_url
     }
   }
 `;

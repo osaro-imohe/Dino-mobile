@@ -33,17 +33,29 @@ const signup = ({ navigation }: ScreenProp) => {
         await AsyncStorage.setItem("firstName", `${data.SignUp.first_name}`);
         await AsyncStorage.setItem("lastName", `${data.SignUp.last_name}`);
         await AsyncStorage.setItem("email", `${data.SignUp.email}`);
+        if (data.SignUp.profile_picture_url === null) {
+          await AsyncStorage.setItem("profile_picture_url", "");
+        } else {
+          await AsyncStorage.setItem(
+            "profile_picture_url",
+            `${data.SignUp.profile_picture_url}`
+          );
+        }
         const token = await AsyncStorage.getItem("token");
         const userId = await AsyncStorage.getItem("userId");
         const firstName = await AsyncStorage.getItem("firstName");
         const lastName = await AsyncStorage.getItem("lastName");
         const email = await AsyncStorage.getItem("email");
+        const profilePictureUrl = await AsyncStorage.getItem(
+          "profile_picture_url"
+        );
         setState({
           token,
           userId,
           firstName,
           lastName,
           email,
+          profilePictureUrl,
           password: "",
         });
       } catch (error) {

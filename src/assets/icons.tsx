@@ -39,6 +39,9 @@ const getMarkup: any = (color: string) => ({
   like: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' width="14" height="14" viewBox='0 0 512 512'>
   <path d='M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z' fill='none' stroke='${colors.dork}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
   </svg>`,
+  liked: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' width="14" height="14" viewBox='0 0 512 512'>
+  <path d='M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z' fill='${colors.cherry}' stroke='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
+  </svg>`,
   pen: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' width="26" height="26" viewBox='0 0 512 512'>
   <path fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32' d='M364.13 125.25L87 403l-23 45 44.99-23 277.76-277.13-22.62-22.62zM420.69 68.69l-22.62 22.62 22.62 22.63 22.62-22.63a16 16 0 000-22.62h0a16 16 0 00-22.62 0z'/>
   </svg>`,
@@ -90,6 +93,36 @@ const getMarkup: any = (color: string) => ({
   <path fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M328 112L184 256l144 144'/>
   </svg>
   `,
+  camera: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512' width="24" height="24">
+  <title>Image</title>
+  <rect x='48' y='80' width='416' height='352' rx='48' ry='48' fill='none' stroke='${color}' stroke-linejoin='round' stroke-width='32'/>
+  <circle cx='336' cy='176' r='32' fill='none' stroke='${color}' stroke-miterlimit='10' stroke-width='32'/>
+  <path d='M304 335.79l-90.66-90.49a32 32 0 00-43.87-1.3L48 352M224 432l123.34-123.34a32 32 0 0143.11-2L464 368' fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
+  </svg>
+  `,
+  clear: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512' width="24" height="24">
+  <title>Close</title>
+  <path fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32' d='M368 368L144 144M368 144L144 368'/>
+  </svg>`,
+  user: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512' width="24" height="24">
+  <title>Person</title>
+  <path d='M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z' fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
+  <path d='M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z' fill='none' stroke='${color}' stroke-miterlimit='10' stroke-width='32'/>
+  </svg>`,
+  image: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512' width="34" height="34">
+  <title>Images</title>
+  <path d='M432 112V96a48.14 48.14 0 00-48-48H64a48.14 48.14 0 00-48 48v256a48.14 48.14 0 0048 48h16' fill='none' stroke='${color}' stroke-linejoin='round' stroke-width='32'/>
+  <rect x='96' y='128' width='400' height='336' rx='45.99' ry='45.99' fill='none' stroke='${color}' stroke-linejoin='round' stroke-width='32'/>
+  <ellipse cx='372.92' cy='219.64' rx='30.77' ry='30.55' fill='none' stroke='${color}' stroke-miterlimit='10' stroke-width='32'/>
+  <path d='M342.15 372.17L255 285.78a30.93 30.93 0 00-42.18-1.21L96 387.64M265.23 464l118.59-117.73a31 31 0 0141.46-1.87L496 402.91' fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
+  </svg>`,
+  users: `<svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512' width="24" height="24">
+  <title>People</title>
+  <path d='M402 168c-2.93 40.67-33.1 72-66 72s-63.12-31.32-66-72c-3-42.31 26.37-72 66-72s69 30.46 66 72z' fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
+  <path d='M336 304c-65.17 0-127.84 32.37-143.54 95.41-2.08 8.34 3.15 16.59 11.72 16.59h263.65c8.57 0 13.77-8.25 11.72-16.59C463.85 335.36 401.18 304 336 304z' fill='none' stroke='${color}' stroke-miterlimit='10' stroke-width='32'/>
+  <path d='M200 185.94c-2.34 32.48-26.72 58.06-53 58.06s-50.7-25.57-53-58.06C91.61 152.15 115.34 128 147 128s55.39 24.77 53 57.94z' fill='none' stroke='${color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
+  <path d='M206 306c-18.05-8.27-37.93-11.45-59-11.45-52 0-102.1 25.85-114.65 76.2-1.65 6.66 2.53 13.25 9.37 13.25H154' fill='none' stroke='${color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='32'/>
+  </svg>`,
 });
 
 const Icon = ({ name, color, style }: Props) => {

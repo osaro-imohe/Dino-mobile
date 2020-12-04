@@ -37,7 +37,32 @@ const styles = (colorScheme: any) =>
       alignItems: "center",
       justifyContent: "center",
     },
-    newPostTouch: {},
+    homeNoGroups: {
+      fontWeight: "200",
+      textAlign: "left",
+      fontSize: getHeight(15),
+      borderColor: colors.dork,
+      borderRadius: getHeight(5),
+      borderWidth: getHeight(1),
+      paddingLeft: getWidth(10),
+      paddingRight: getWidth(10),
+      paddingTop: getHeight(10),
+      paddingBottom: getHeight(10),
+      color: colorScheme === "light" ? colors.black : colors.white,
+    },
+    noposts: {
+      borderWidth: getHeight(1),
+      borderColor: colors.dork,
+      paddingLeft: getWidth(10),
+      paddingRight: getWidth(10),
+      paddingTop: getHeight(10),
+      paddingBottom: getHeight(10),
+      borderRadius: getHeight(5),
+      fontSize: getHeight(15),
+      fontWeight: "200",
+      borderStyle: "solid",
+      color: colorScheme === "light" ? colors.black : colors.white,
+    },
   });
 
 export default styles;
